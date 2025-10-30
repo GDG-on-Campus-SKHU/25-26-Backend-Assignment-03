@@ -14,7 +14,6 @@ public class ItemInfoResponseDto {
     private int amount;
 
     private Long dayId;
-    private int localDay;
 
     public static ItemInfoResponseDto from(Item item) {
         return ItemInfoResponseDto.builder()
@@ -23,7 +22,6 @@ public class ItemInfoResponseDto {
                 .price(item.getPrice())
                 .amount(item.getAmount())
                 .dayId(item.getDay().getId())
-                .localDay(item.getDay().getDay())
                 .build();
     }
 }
