@@ -1,0 +1,33 @@
+insert into exercise_area (count_week, name) values (?, ?);
+insert into exercise_area (count_week, name) values (?, ?);
+insert into exercise_area (count_week, name) values (?, ?);
+
+select e1_0.id, e1_0.count_week, e1_0.name
+from exercise_area e1_0
+where e1_0.id=?;
+
+select en1_0.exercise_area_id, en1_0.id, en1_0.title
+from exercise_name en1_0
+where en1_0.exercise_area_id=?;
+
+delete from exercise_area where id=?;
+
+insert into exercise_name (exercise_area_id, title) values (?, ?);
+insert into exercise_name (exercise_area_id, title) values (?, ?);
+
+update exercise_name
+set exercise_area_id=?, title=?
+where id=?;
+
+select e1_0.id, e1_0.exercise_area_id, e1_0.title
+from exercise_name e1_0
+where e1_0.id=?;
+
+delete from exercise_name where id=?;
+
+select e1_0.id, e1_0.exercise_area_id, e1_0.title
+from exercise_name e1_0;
+
+select e1_0.id, e1_0.count_week, e1_0.name
+from exercise_area e1_0
+where e1_0.id=?;
