@@ -33,7 +33,7 @@ public class DayController {
     }
 
     @DeleteMapping("/{dayId}")
-    public ResponseEntity<DayInfoResponseDto> deleteDay(@PathVariable Long dayId) {
+    public ResponseEntity<Void> deleteDay(@PathVariable Long dayId) {
         dayService.deleteDay(dayId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
