@@ -1,4 +1,7 @@
 package com.gdg.jpaexample.repository;
 
-public class BookRepository {
+import com.gdg.jpaexample.domain.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
 }
