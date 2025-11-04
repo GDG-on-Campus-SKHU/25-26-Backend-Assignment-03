@@ -1,16 +1,18 @@
 package com.example.jpaexample.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "projects")
 public class Project {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 80, unique = true)
@@ -22,7 +24,9 @@ public class Project {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = false)
     private final List<Issue> issues = new ArrayList<>();
 
     protected Project() { }
@@ -44,13 +48,17 @@ public class Project {
     public List<Issue> getIssues() { return List.copyOf(issues); }
 
     public void addIssue(Issue issue) {
-        if (issue == null) { throw new IllegalArgumentException("issue must not be null"); }
+        if (issue == null) {
+            throw new IllegalArgumentException("issue must not be null");
+        }
         issues.add(issue);
         issue.setProjectInternal(this);
     }
 
     public void removeIssue(Issue issue) {
-        if (issue == null) { return; }
+        if (issue == null) {
+            return;
+        }
         if (issues.remove(issue)) {
             issue.setProjectInternal(null);
         }
@@ -58,12 +66,15 @@ public class Project {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Project)) return false;
-        Project project = (Project) o;
-        return Objects.equals(id, project.id);
+        if (this == o) { return true; }
+        if (o == null) { return false; }
+        if (Hibernate.getClass(this) != Hibernate.getClass(o)) { return false; }
+        Project other = (Project) o;
+        return id != null && id.equals(other.id);
     }
 
     @Override
-    public int hashCode() { return 31; }
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -1,16 +1,14 @@
 package com.example.jpaexample.domain;
 
 import jakarta.persistence.*;
-import java.util.Objects;
-
-import static com.example.jpaexample.domain.IssueEnums.Priority;
-import static com.example.jpaexample.domain.IssueEnums.Status;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "issues")
 public class Issue {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 140)
@@ -21,11 +19,11 @@ public class Issue {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status status;
+    private IssueEnums.Status status;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Priority priority;
+    private IssueEnums.Priority priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
@@ -33,29 +31,30 @@ public class Issue {
 
     protected Issue() { }
 
-    private Issue(String title, String description, Status status, Priority priority) {
+    private Issue(String title, String description, IssueEnums.Status status, IssueEnums.Priority priority) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.priority = priority;
     }
 
-    public static Issue of(String title, String description, Status status, Priority priority) {
+    public static Issue of(String title, String description, IssueEnums.Status status, IssueEnums.Priority priority) {
         return new Issue(title, description, status, priority);
     }
 
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
-    public Status getStatus() { return status; }
-    public Priority getPriority() { return priority; }
+    public IssueEnums.Status getStatus() { return status; }
+    public IssueEnums.Priority getPriority() { return priority; }
     public Project getProject() { return project; }
-
 
     void setProjectInternal(Project project) { this.project = project; }
 
-    public void change(String newTitle, String newDescription, Status newStatus, Priority newPriority) {
-        if (newTitle == null || newTitle.isBlank()) { throw new IllegalArgumentException("title must not be blank"); }
+    public void change(String newTitle, String newDescription, IssueEnums.Status newStatus, IssueEnums.Priority newPriority) {
+        if (newTitle == null || newTitle.isBlank()) {
+            throw new IllegalArgumentException("title must not be blank");
+        }
         this.title = newTitle;
         this.description = newDescription;
         this.status = newStatus;
@@ -64,12 +63,15 @@ public class Issue {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Issue)) return false;
-        Issue issue = (Issue) o;
-        return Objects.equals(id, issue.id);
+        if (this == o) { return true; }
+        if (o == null) { return false; }
+        if (Hibernate.getClass(this) != Hibernate.getClass(o)) { return false; }
+        Issue other = (Issue) o;
+        return id != null && id.equals(other.id);
     }
 
     @Override
-    public int hashCode() { return 31; }
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

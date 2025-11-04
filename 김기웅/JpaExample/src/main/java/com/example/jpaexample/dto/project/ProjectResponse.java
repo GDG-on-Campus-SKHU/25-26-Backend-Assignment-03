@@ -1,8 +1,11 @@
 package com.example.jpaexample.dto.project;
 
 import com.example.jpaexample.domain.Project;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public final class ProjectResponse {
 
     private final Long id;
@@ -20,9 +23,4 @@ public final class ProjectResponse {
     public static ProjectResponse from(Project p) {
         return new ProjectResponse(p.getId(), p.getName(), p.getKeyCode(), p.getCreatedAt());
     }
-
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getKeyCode() { return keyCode; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
 }

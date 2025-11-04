@@ -4,6 +4,7 @@ import com.example.jpaexample.dto.project.ProjectCreateRequest;
 import com.example.jpaexample.dto.project.ProjectResponse;
 import com.example.jpaexample.service.ProjectService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/projects")
 public class ProjectController {
 
     private final ProjectService projectService;
-
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
-    }
 
     @PostMapping
     public ResponseEntity<ProjectResponse> create(@Valid @RequestBody ProjectCreateRequest request) {
