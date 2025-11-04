@@ -1,7 +1,9 @@
 package com.gdg.jpaexample.controller;
 
+import com.gdg.jpaexample.dto.BookChangeAuthorRequestDto;
 import com.gdg.jpaexample.dto.BookInfoResponseDto;
 import com.gdg.jpaexample.dto.BookSaveRequestDto;
+import com.gdg.jpaexample.dto.BookUpdateInfoRequestDto;
 import com.gdg.jpaexample.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class BookController {
 
     @PostMapping
     public BookInfoResponseDto save(@RequestBody BookSaveRequestDto dto) {
-        return bookService.save(dto);
+        return bookService.saveBook(dto);
     }
 
     @GetMapping
@@ -32,12 +34,19 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public BookInfoResponseDto update(@PathVariable Long id, @RequestBody BookSaveRequestDto dto) {
-        return bookService.update(id, dto);
+    public BookInfoResponseDto update(@PathVariable Long id,
+                                      @RequestBody BookUpdateInfoRequestDto dto) {
+        return bookService.updateBookInfo(id, dto);
+    }
+
+    @PatchMapping("/{id}/author")
+    public BookInfoResponseDto changeAuthor(@PathVariable Long id,
+                                            @RequestBody BookChangeAuthorRequestDto dto) {
+        return bookService.changeBookAuthor(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        bookService.delete(id);
+        bookService.deleteBook(id);
     }
 }

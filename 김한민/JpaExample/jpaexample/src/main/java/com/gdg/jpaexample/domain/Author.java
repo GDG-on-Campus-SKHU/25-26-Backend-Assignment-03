@@ -14,10 +14,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
 @Entity
 @Table(name = "author")
+@Getter
+@NoArgsConstructor
 public class Author {
 
     @Id
@@ -31,19 +31,30 @@ public class Author {
     private String nationality;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     @Builder
-    public Author(String name, String nationality, List<Book> books) {
+    public Author(String name, String nationality) {
         this.name = name;
         this.nationality = nationality;
-        // 빌더로 생성 시 books를 세팅하지 않으면 null이 될 수 있으니 기본값 보장
-        this.books = (books != null) ? books : new ArrayList<>();
     }
 
-    // 양방향 편의 메서드(선택)
+    // 연관관계 편의 메서드
     public void addBook(Book book) {
-        this.books.add(book);
-        book.setAuthor(this);
+        if (!books.contains(book)) {
+            books.add(book);
+            book.setAuthorOnly(this); // Book 측만 세팅(중복 방지)
+        }
+    }
+
+    public void removeBook(Book book) {
+        if (books.remove(book)) {
+            book.removeAuthorOnly(); // Book 측만 해제
+        }
+    }
+
+    public void updateBasicInfo(String name, String nationality) {
+        this.name = name;
+        this.nationality = nationality;
     }
 }
