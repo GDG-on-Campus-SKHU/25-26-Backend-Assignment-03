@@ -35,7 +35,11 @@ public class StationController {
     }
 
     @PatchMapping("/{stationId}")
+<<<<<<< HEAD
+    public ResponseEntity<StationInfoResponseDTO> updateStation(@PathVariable Long stationId,
+=======
     public ResponseEntity<?> updateStation(@PathVariable Long stationId,
+>>>>>>> 45740897e8db15ed5a4d411ff00b31a3c1a43da0
                                          @RequestBody StationSaveRequestDTO stationSaveRequestDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(stationService.updateStation(stationId, stationSaveRequestDTO));
     }
