@@ -1,10 +1,10 @@
 package com.gdg.jpa.service;
 
-import com.gdg.jpa.domain.Soon;
+import com.gdg.jpa.domain.UrgentWork;
 import com.gdg.jpa.domain.ToDo;
 import com.gdg.jpa.dto.ToDoInfoResponseDto;
 import com.gdg.jpa.dto.ToDoSaveRequestDto;
-import com.gdg.jpa.repository.SoonRepository;
+import com.gdg.jpa.repository.UrgentWorkRepository;
 import com.gdg.jpa.repository.ToDoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,15 @@ import java.util.List;
 public class ToDoService {
 
     private final ToDoRepository todoRepository;
-    private final SoonRepository soonRepository;
+    private final UrgentWorkRepository urgentWorkRepository;
 
     @Transactional
     public ToDoInfoResponseDto saveWork(ToDoSaveRequestDto todoSaveRequestDto) { //일정 추가
-        Soon soon = soonRepository.findById(todoSaveRequestDto.getSoonId())
+        UrgentWork urgentWork = urgentWorkRepository.findById(todoSaveRequestDto.getUrgentWorkId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 일정은 존재하지 않습니다."));
 
         ToDo todo = ToDo.builder()
-                .soon(soon)
+                .urgentWork(urgentWork)
                 .work(todoSaveRequestDto.getWork())
                 .build();
 
@@ -47,10 +47,10 @@ public class ToDoService {
         ToDo todo = todoRepository.findById(workId) //할 일 아이디로 할 일 찾기..?
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 내용의 일정을 찾을 수 없습니다."));
 
-        Soon soon = soonRepository.findById(todoSaveRequestDto.getSoonId()) //급한 일정 아이디로 할 일 찾기
+        UrgentWork urgentWork = urgentWorkRepository.findById(todoSaveRequestDto.getUrgentWorkId()) //급한 일정 아이디로 할 일 찾기
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 내용의 일정을 찾을 수 없습니다."));
 
-        todo.update(todoSaveRequestDto.getWork(), soon); //변경된 내용 덮어쓰기?
+        todo.update(todoSaveRequestDto.getWork(), urgentWork); //변경된 내용 덮어쓰기?
 
         return ToDoInfoResponseDto.from(todo); //내용 변경된 상태로 반환?
     }

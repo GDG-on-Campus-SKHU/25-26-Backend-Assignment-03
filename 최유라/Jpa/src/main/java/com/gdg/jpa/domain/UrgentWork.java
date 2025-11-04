@@ -18,22 +18,22 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Soon {
+public class UrgentWork {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //id 생성을 DB에 완전히 맡김
     private Long id; //DB가 생성해주는 id?
-    private String first; //클라이언트?가 입력해야 함
+    private String schedule; //클라이언트?가 입력해야 함
 
-    @Column(name = "limit_time") //DB에서 실제로 사용되는 컬럼 이름
-    private int limit;
+    @Column(name = "left_time") //DB에서 실제로 사용되는 컬럼 이름
+    private int daysLeft;
     //Soon(급한 일정)에 여러 '세부 일정'이 포함될 수 있음
-    @OneToMany(mappedBy = "soon", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "urgentWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ToDo> todos = new ArrayList<>();
 
     @Builder
-    public Soon(String first, int limit) {
-        this.first = first;
-        this.limit = limit;
+    public UrgentWork(String schedule, int daysLeft) {
+        this.schedule = schedule;
+        this.daysLeft = daysLeft;
     }
 }

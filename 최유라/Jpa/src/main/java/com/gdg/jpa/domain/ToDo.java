@@ -22,17 +22,17 @@ public class ToDo {
     private String work;
 
     @ManyToOne(fetch = FetchType.LAZY) //여러 '세부 일정'이 하나의 Soon(급한 일정)에 포함될 수 있음
-    @JoinColumn(name = "soon_id") //참조할 외래키 이름
-    private Soon soon;
+    @JoinColumn(name = "urgentWork_id") //참조할 외래키 이름
+    private UrgentWork urgentWork;
 
     @Builder
-    public ToDo(String work, Soon soon) {
+    public ToDo(String work, UrgentWork urgentWork) {
         this.work = work;
-        this.soon = soon;
+        this.urgentWork = urgentWork;
     }
 
-    public void update(String work, Soon soon) {
+    public void update(String work, UrgentWork urgentWork) {
         this.work = work;
-        this.soon = soon;
+        this.urgentWork = urgentWork;
     }
 }
