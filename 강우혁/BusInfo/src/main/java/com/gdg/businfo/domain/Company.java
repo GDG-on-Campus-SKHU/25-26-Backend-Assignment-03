@@ -29,4 +29,9 @@ public class Company {
         this.phoneNumber = phoneNumber;
         this.region = region;
     }
+    public void update(String companyName, String phoneNumber, String region) {
+        this.companyName = companyName;
+        this.phoneNumber = phoneNumber;
+        this.region = region;
+    }
 }

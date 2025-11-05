@@ -30,4 +30,10 @@ public class Route {
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<Bus> buses = new ArrayList<>();
 
+    public void update(String routeName, String startPoint, String endPoint) {
+        this.routeName = routeName;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
+
 }

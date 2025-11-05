@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
-
     //create
     @Transactional
     public CompanyInfoResponseDto saveCompany(CompanySaveRequestDto companySaveRequestDto) {
@@ -25,7 +24,6 @@ public class CompanyService {
         companyRepository.save(company);
         return CompanyInfoResponseDto.from(company);
     }
-
     //delete
     @Transactional
     public void deleteCompany(Long id) {

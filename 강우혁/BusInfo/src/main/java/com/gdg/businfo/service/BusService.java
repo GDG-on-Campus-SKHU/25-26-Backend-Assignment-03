@@ -5,6 +5,8 @@ import com.gdg.businfo.domain.Company;
 import com.gdg.businfo.domain.Route;
 import com.gdg.businfo.dto.BusInfoResponseDto;
 import com.gdg.businfo.dto.BusSaveRequestDto;
+import com.gdg.businfo.dto.CompanySaveRequestDto;
+import com.gdg.businfo.dto.RouteSaveRequestDto;
 import com.gdg.businfo.repository.BusRepository;
 import com.gdg.businfo.repository.CompanyRepository;
 import com.gdg.businfo.repository.RouteRepository;
@@ -45,7 +47,6 @@ public class BusService {
         );
         return BusInfoResponseDto.from(bus);
     }
-
     @Transactional(readOnly = true)
     public List<BusInfoResponseDto> getAllBus() {
             return busRepository.findAll()
@@ -53,7 +54,6 @@ public class BusService {
                     .map(BusInfoResponseDto::from)
                     .toList();
     }
-
     //update
     @Transactional
     public BusInfoResponseDto updateBus(Long id, BusSaveRequestDto busSaveRequestDto) {
@@ -63,33 +63,33 @@ public class BusService {
         bus.update(busSaveRequestDto.getBusNumber(),busSaveRequestDto.getType());
         return BusInfoResponseDto.from(bus);
     }
-
     @Transactional
-    public BusInfoResponseDto updateCompanyBus(Long id, Long companyId, BusSaveRequestDto busSaveRequestDto) {
+    public BusInfoResponseDto updateCompanyBus(Long id, Long companyId, BusSaveRequestDto busSaveRequestDto, CompanySaveRequestDto companySaveRequestDto) {
         Bus bus = busRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("버스를 찾을 수 없습니다.")
         );
         Company company = companyRepository.findById(companyId).orElseThrow(
                 () -> new IllegalArgumentException(("회사를 찾을 수 없습니다."))
         );
+        company.update(companySaveRequestDto.getCompanyName(),companySaveRequestDto.getPhoneNumber(),companySaveRequestDto.getRegion());
         bus.updateCompanyBus(busSaveRequestDto.getBusNumber(),busSaveRequestDto.getType(), company);
         return BusInfoResponseDto.from(bus);
     }
-
     @Transactional
-    public BusInfoResponseDto updateRouteBus(Long id, Long routeId, BusSaveRequestDto busSaveRequestDto) {
+    public BusInfoResponseDto updateRouteBus(Long id, Long routeId, BusSaveRequestDto busSaveRequestDto, RouteSaveRequestDto routeSaveRequestDto) {
         Bus bus = busRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("버스를 찾을 수 없습니다.")
         );
         Route route = routeRepository.findById(routeId).orElseThrow(
                 () -> new IllegalArgumentException("노선을 찾을 수 없습니다.")
         );
+        route.update(routeSaveRequestDto.getRouteName(),routeSaveRequestDto.getStartPoint(),routeSaveRequestDto.getEndPoint());
         bus.updateRouteBus(busSaveRequestDto.getBusNumber(), busSaveRequestDto.getType(), route);
         return BusInfoResponseDto.from(bus);
     }
-
     @Transactional
-    public BusInfoResponseDto updateAllBus(Long id, Long companyId, Long routeId, BusSaveRequestDto busSaveRequestDto) {
+    public BusInfoResponseDto updateAllBus(Long id, Long companyId, Long routeId, BusSaveRequestDto busSaveRequestDto,
+                                           CompanySaveRequestDto companySaveRequestDto, RouteSaveRequestDto routeSaveRequestDto) {
         Bus bus = busRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("버스를 찾을 수 없습니다.")
         );
@@ -99,10 +99,11 @@ public class BusService {
         Route route = routeRepository.findById(routeId).orElseThrow(
                 () -> new IllegalArgumentException("노선을 찾을 수 없습니다.")
         );
+        company.update(companySaveRequestDto.getCompanyName(),companySaveRequestDto.getPhoneNumber(),companySaveRequestDto.getRegion());
+        route.update(routeSaveRequestDto.getRouteName(),routeSaveRequestDto.getStartPoint(),routeSaveRequestDto.getEndPoint());
         bus.updateAllBus(busSaveRequestDto.getBusNumber(), busSaveRequestDto.getType(), company, route);
         return BusInfoResponseDto.from(bus);
     }
-
     //delete
     @Transactional
     public void deleteBus(Long id) {
@@ -111,5 +112,4 @@ public class BusService {
         );
         busRepository.deleteById(id);
     }
-
 }

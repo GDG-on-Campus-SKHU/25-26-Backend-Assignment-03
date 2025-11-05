@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RouteService {
     private final RouteRepository routeRepository;
-
     //create
     @Transactional
     public RouteInfoResponseDto saveRoute(RouteSaveRequestDto routeSaveRequestDto) {
@@ -24,7 +23,6 @@ public class RouteService {
         routeRepository.save(route);
         return RouteInfoResponseDto.from(route);
     }
-
     //delete
     @Transactional
     public void deleteRoute(Long id) {
