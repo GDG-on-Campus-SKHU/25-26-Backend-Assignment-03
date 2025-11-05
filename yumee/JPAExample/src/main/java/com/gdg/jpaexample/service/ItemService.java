@@ -6,9 +6,9 @@ import com.gdg.jpaexample.dto.itemdto.ItemInfoResponseDto;
 import com.gdg.jpaexample.dto.itemdto.ItemSaveRequestDto;
 import com.gdg.jpaexample.repository.DayRepository;
 import com.gdg.jpaexample.repository.ItemRepository;
-
-
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class ItemService {
 
     private final DayRepository dayRepository;
     private final ItemRepository itemRepository;
+
+    @Autowired
+    private final Validator validator;
 
     @Transactional
     public ItemInfoResponseDto saveItem(ItemSaveRequestDto itemSaveRequestDto) {
@@ -49,22 +51,15 @@ public class ItemService {
 
     @Transactional
     public ItemInfoResponseDto updateItem(Long itemId, ItemSaveRequestDto itemSaveRequestDto) {
+
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 품목을 찾을 수 없습니다."));
 
-        int price = itemSaveRequestDto.getPrice();
-        int amount = itemSaveRequestDto.getAmount();
-
-        if (price == 0) {
-            throw new IllegalArgumentException("가격을 추가해주세요.");
-        }
-
-        if (amount == 0) {
-            throw new IllegalArgumentException("수량을 추가해주세요.");
-        }
+        Integer amount = itemSaveRequestDto.getAmount();
+        Integer price = itemSaveRequestDto.getPrice();
 
         Day day = dayRepository.findById(itemSaveRequestDto.getDayId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 날짜가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 날짜를 찾을 수 없습니다."));
 
         item.update(itemSaveRequestDto.getTitle(), price, amount, day);
 

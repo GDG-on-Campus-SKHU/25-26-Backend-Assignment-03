@@ -6,7 +6,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-
 public class DayInfoResponseDto {
     private Long id;
     private int day;

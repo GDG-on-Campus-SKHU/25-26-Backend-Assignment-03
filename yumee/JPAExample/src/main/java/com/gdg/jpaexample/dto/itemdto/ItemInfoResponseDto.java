@@ -6,12 +6,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-
 public class ItemInfoResponseDto {
     private Long id;
     private String title;
-    private int price;
-    private int amount;
+    private Integer price;
+    private Integer amount;
 
     private Long dayId;
 

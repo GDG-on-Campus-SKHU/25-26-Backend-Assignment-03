@@ -3,7 +3,6 @@ package com.gdg.jpaexample.service;
 import com.gdg.jpaexample.domain.Day;
 import com.gdg.jpaexample.dto.daydto.DayInfoResponseDto;
 import com.gdg.jpaexample.dto.daydto.DaySaveRequestDto;
-import com.gdg.jpaexample.dto.itemdto.ItemInfoResponseDto;
 import com.gdg.jpaexample.repository.DayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class DayService {
 
     private final DayRepository dayRepository;

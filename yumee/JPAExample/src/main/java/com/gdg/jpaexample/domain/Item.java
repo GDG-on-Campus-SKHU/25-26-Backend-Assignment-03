@@ -13,29 +13,28 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-
 public class Item {
 
     @Id
     @GeneratedValue
     private Long id;
     private String title;
-    private int price;
-    private int amount;
+    private Integer price;
+    private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_id")
     private Day day;
 
     @Builder
-    public Item(String title, int price, int amount, Day day) {
+    public Item(String title, Integer price, Integer amount, Day day) {
         this.title = title;
         this.price = price;
         this.amount = amount;
         this.day = day;
     }
 
-    public void update(String title, int price, int amount, Day day) {
+    public void update(String title, Integer price, Integer amount, Day day) {
         this.title = title;
         this.price = price;
         this.amount = amount;

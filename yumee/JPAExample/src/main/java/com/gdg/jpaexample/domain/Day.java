@@ -1,6 +1,6 @@
 package com.gdg.jpaexample.domain;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-
 public class Day {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class Day {
     private int month;
 
     @Builder
-    public Day(int year, int month, int day) {
+    public Day(int month, int day) {
         this.month = month;
         this.day = day;
     }
