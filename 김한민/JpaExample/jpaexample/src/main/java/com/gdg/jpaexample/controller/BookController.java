@@ -5,7 +5,6 @@ import com.gdg.jpaexample.dto.BookInfoResponseDto;
 import com.gdg.jpaexample.dto.BookSaveRequestDto;
 import com.gdg.jpaexample.dto.BookUpdateInfoRequestDto;
 import com.gdg.jpaexample.service.BookService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/books")
@@ -25,7 +26,7 @@ public class BookController {
 
     @PostMapping
     public BookInfoResponseDto save(@RequestBody BookSaveRequestDto dto) {
-        return bookService.saveBook(dto);
+        return bookService.save(dto);
     }
 
     @GetMapping
@@ -34,19 +35,17 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public BookInfoResponseDto update(@PathVariable Long id,
-                                      @RequestBody BookUpdateInfoRequestDto dto) {
-        return bookService.updateBookInfo(id, dto);
+    public BookInfoResponseDto update(@PathVariable Long id, @RequestBody BookUpdateInfoRequestDto dto) {
+        return bookService.updateInfo(id, dto);
     }
 
     @PatchMapping("/{id}/author")
-    public BookInfoResponseDto changeAuthor(@PathVariable Long id,
-                                            @RequestBody BookChangeAuthorRequestDto dto) {
-        return bookService.changeBookAuthor(id, dto);
+    public BookInfoResponseDto changeAuthor(@PathVariable Long id, @RequestBody BookChangeAuthorRequestDto dto) {
+        return bookService.changeAuthor(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        bookService.deleteBook(id);
+        bookService.delete(id);
     }
 }
