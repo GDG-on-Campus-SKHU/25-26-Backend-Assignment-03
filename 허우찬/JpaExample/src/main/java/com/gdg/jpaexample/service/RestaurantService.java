@@ -72,7 +72,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new NoSuchElementException("맛집을 찾을 수 없습니다. ID: " + restaurantId));
         return restaurant.getReviews().stream()
                 .map(ReviewResponseDto::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
